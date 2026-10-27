@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#132b36" />
+  <meta name="description" content="JournalDesk - website demo quản lý nộp bài tạp chí khoa học, không cần backend hay cơ sở dữ liệu." />
+  <title>JournalDesk | Quản lý bài gửi tạp chí</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+  <link rel="stylesheet" href="/styles.css" />
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <svg aria-hidden="true" class="icon-sprite" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h6"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M8 7h8M8 11h6"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m16.5 16.5 4 4"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V3m-5 5 5-5 5 5M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v13m-5-5 5 5 5-5M4 17v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-filter" viewBox="0 0 24 24"><path d="M4 7h16M7 12h10m-7 5h4"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 7v6m0 4h.01"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2m3 0-1 15H6L5 6m5 4v7m4-7v7"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 11v6m0-10h.01"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L9 17l-4 1 1-4L16.5 3.5z"/></symbol>
+  </svg>
+
+  <div class="app-shell">
+    <div class="mobile-scrim" id="mobileScrim" hidden></div>
+    <aside class="sidebar" id="sidebar">
+      <div class="brand-wrap">
+        <div class="brand-emblem" aria-hidden="true"><span>J</span><i></i></div>
+        <div class="brand-text"><strong>JournalDesk</strong><span>MANUSCRIPT PORTAL</span></div>
+      </div>
+
+      <div class="sidebar-label">KHÔNG GIAN LÀM VIỆC</div>
+      <nav class="main-nav" aria-label="Điều hướng chính">
+        <button type="button" class="nav-link is-active" data-view="dashboard" aria-current="page"><svg class="icon"><use href="#i-grid" /></svg><span>Tổng quan</span></button>
+        <button type="button" class="nav-link" data-view="manuscripts"><svg class="icon"><use href="#i-file" /></svg><span>Bài đã gửi</span><span class="nav-count" id="sidebarCount">0</span></button>
+        <button type="button" class="nav-link" data-action="open-submit"><svg class="icon"><use href="#i-plus" /></svg><span>Nộp bài mới</span></button>
+        <button type="button" class="nav-link" data-view="guidelines"><svg class="icon"><use href="#i-book" /></svg><span>Hướng dẫn nộp bài</span></button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="sidebar-help">
+          <span class="sidebar-help-icon"><svg class="icon"><use href="#i-info" /></svg></span>
+          <strong>Dự án thực hành</strong>
+          <p>Website tĩnh minh họa quy trình tiếp nhận bài báo khoa học.</p>
+          <button type="button" class="quiet-link" data-view="guidelines">Xem cách sử dụng <span aria-hidden="true">↗</span></button>
+        </div>
+        <div class="sidebar-profile">
+          <span class="avatar">JD</span>
+          <div><strong>Tài khoản demo</strong><span>Không cần đăng nhập</span></div>
+          <span class="online-dot" aria-label="Ứng dụng đang mở"></span>
+        </div>
+      </div>
+    </aside>
+
+    <div class="work-area">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button type="button" class="mobile-menu-btn" id="menuButton" aria-label="Mở menu" aria-expanded="false"><svg class="icon"><use href="#i-menu" /></svg></button>
+          <div class="breadcrumb"><span>Cổng tác giả</span><svg class="icon"><use href="#i-chevron" /></svg><strong id="breadcrumbCurrent">Tổng quan</strong></div>
+        </div>
+        <div class="topbar-right"><span class="demo-pill"><span></span> Môi trường demo</span><span class="topbar-avatar">JD</span></div>
+      </header>
+
+      <main id="mainContent" tabindex="-1">
+        <section class="view" id="view-dashboard" aria-labelledby="dashTitle">
+          <div class="page-topline"><div><div class="overline">TỔNG QUAN HỆ THỐNG</div><h1 id="dashTitle">Xin chào, tác giả <span class="wave" aria-hidden="true">✳</span></h1><p>Theo dõi và quản lý các bản thảo trong một không gian duy nhất.</p></div><button type="button" class="btn btn-outline mobile-hide" data-view="guidelines"><svg class="icon"><use href="#i-book" /></svg> Quy trình nộp bài</button></div>
+
+          <div class="hero-card">
+            <div class="hero-copy"><span class="hero-eyebrow"><i></i> CỔNG NỘP BÀI KHOA HỌC</span><h2>Ý tưởng của bạn,<br /><em>hành trình xuất bản mới.</em></h2><p>Chuẩn bị bản thảo, gửi hồ sơ và theo dõi trạng thái xử lý — tất cả trong một giao diện đơn giản.</p><button type="button" class="btn btn-coral" data-action="open-submit">Nộp bản thảo mới <svg class="icon"><use href="#i-arrow-right" /></svg></button></div>
+            <div class="hero-illustration" aria-hidden="true"><div class="paper paper-back"></div><div class="paper paper-front"><span class="paper-micro">RESEARCH MANUSCRIPT</span><div class="paper-lines line-large"></div><div class="paper-lines line-med"></div><div class="paper-divider"></div><div class="paper-lines line-full"></div><div class="paper-lines line-full"></div><div class="paper-lines line-short"></div><span class="paper-stamp"><svg class="icon"><use href="#i-check" /></svg></span></div><div class="hero-sparkle sp-one">✳</div><div class="hero-sparkle sp-two">✴</div></div>
+          </div>
+
+          <div class="section-caption"><h2>Tình hình bản thảo</h2><span>Dữ liệu được lưu trong trình duyệt này</span></div>
+          <div class="stats-grid">
+            <article class="stat-card"><div class="stat-top"><span>Tổng bài gửi</span><span class="stat-icon lavender"><svg class="icon"><use href="#i-file" /></svg></span></div><strong class="stat-number" id="statTotal">0</strong><span class="stat-foot">Tất cả bản thảo</span></article>
+            <article class="stat-card"><div class="stat-top"><span>Đang xử lý</span><span class="stat-icon amber"><svg class="icon"><use href="#i-clock" /></svg></span></div><strong class="stat-number" id="statActive">0</strong><span class="stat-foot">Đang xét duyệt / phản biện</span></article>
+            <article class="stat-card"><div class="stat-top"><span>Cần chỉnh sửa</span><span class="stat-icon rose"><svg class="icon"><use href="#i-edit" /></svg></span></div><strong class="stat-number" id="statRevision">0</strong><span class="stat-foot">Chờ bản thảo cập nhật</span></article>
+            <article class="stat-card"><div class="stat-top"><span>Đã chấp nhận</span><span class="stat-icon mint"><svg class="icon"><use href="#i-check" /></svg></span></div><strong class="stat-number" id="statAccepted">0</strong><span class="stat-foot">Bản thảo được duyệt</span></article>
+          </div>
+
+          <div class="dashboard-grid">
+            <section class="surface-card recent-card" aria-labelledby="recentTitle"><div class="card-heading"><div><span class="card-kicker">CẬP NHẬT GẦN ĐÂY</span><h2 id="recentTitle">Bản thảo gần nhất</h2></div><button type="button" class="text-action" data-view="manuscripts">Xem tất cả <svg class="icon"><use href="#i-arrow-right" /></svg></button></div><div id="recentList" class="recent-list"></div></section>
+            <section class="surface-card workflow-card"><div class="card-heading"><div><span class="card-kicker">CÁC BƯỚC CƠ BẢN</span><h2>Quy trình gửi bài</h2></div></div><div class="step-list"><div class="step-item"><span class="step-number">01</span><div><strong>Chuẩn bị bản thảo</strong><p>Hoàn thiện tiêu đề, tóm tắt và thông tin tác giả.</p></div></div><div class="step-item"><span class="step-number">02</span><div><strong>Nộp hồ sơ</strong><p>Điền biểu mẫu và ghi nhận bài gửi trên trình duyệt.</p></div></div><div class="step-item"><span class="step-number">03</span><div><strong>Theo dõi trạng thái</strong><p>Tra cứu và cập nhật tiến độ mô phỏng của bản thảo.</p></div></div></div><button type="button" class="workflow-cta" data-view="guidelines">Xem hướng dẫn chi tiết <svg class="icon"><use href="#i-arrow-right" /></svg></button></section>
+          </div>
+        </section>
+
+        <section class="view" id="view-manuscripts" aria-labelledby="listTitle" hidden>
+          <div class="page-topline"><div><div class="overline">QUẢN LÝ HỒ SƠ</div><h1 id="listTitle">Danh sách bài gửi</h1><p>Tra cứu, xem thông tin và cập nhật trạng thái bản thảo demo.</p></div><button type="button" class="btn btn-primary" data-action="open-submit"><svg class="icon"><use href="#i-plus" /></svg> Nộp bài mới</button></div>
+          <div class="surface-card list-card"><div class="list-toolbar"><div class="search-field"><svg class="icon"><use href="#i-search" /></svg><label class="sr-only" for="searchInput">Tìm bài theo tiêu đề, mã bài, tác giả</label><input type="search" id="searchInput" placeholder="Tìm theo tiêu đề, mã bài hoặc tác giả..." autocomplete="off" /></div><div class="filter-field"><svg class="icon"><use href="#i-filter" /></svg><label class="sr-only" for="statusFilter">Lọc trạng thái</label><select id="statusFilter"><option value="all">Tất cả trạng thái</option><option value="submitted">Mới nộp</option><option value="screening">Kiểm tra hình thức</option><option value="review">Đang phản biện</option><option value="revision">Cần chỉnh sửa</option><option value="accepted">Đã chấp nhận</option><option value="rejected">Từ chối</option></select></div><button type="button" class="btn btn-light export-btn" id="exportBtn"><svg class="icon"><use href="#i-download" /></svg> Xuất CSV</button></div><div class="table-scroller"><table class="manuscript-table"><thead><tr><th>Mã bài / Tiêu đề</th><th>Tác giả liên hệ</th><th>Ngày gửi</th><th>Trạng thái</th><th><span class="sr-only">Thao tác</span></th></tr></thead><tbody id="manuscriptsBody"></tbody></table></div><div class="table-footer"><span id="listSummary">0 bản thảo</span><button type="button" class="text-action subtle-action" id="resetDemoBtn">Khôi phục dữ liệu mẫu</button></div></div>
+        </section>
+
+        <section class="view" id="view-guidelines" aria-labelledby="guideTitle" hidden>
+          <div class="page-topline"><div><div class="overline">HỖ TRỢ TÁC GIẢ</div><h1 id="guideTitle">Hướng dẫn nộp bài</h1><p>Một vài bước đơn giản để làm quen với giao diện quản lý bản thảo.</p></div><button type="button" class="btn btn-primary" data-action="open-submit"><svg class="icon"><use href="#i-plus" /></svg> Bắt đầu nộp bài</button></div>
+          <div class="guide-layout"><div class="guide-main"><div class="surface-card guide-intro"><span class="guide-intro-badge">QUY TRÌNH 04 BƯỚC</span><h2>Gửi bản thảo khoa học<br />thật đơn giản.</h2><p>Website này phục vụ minh họa thao tác nộp bài. Không có hệ thống tiếp nhận, phản biện hoặc lưu trữ bản thảo thực tế.</p></div><div class="surface-card guide-steps"><div class="guide-step"><span>01</span><div><h3>Chuẩn bị thông tin</h3><p>Chuẩn bị tiêu đề bài báo, họ tên tác giả liên hệ, email, lĩnh vực nghiên cứu, tóm tắt và từ khóa.</p></div></div><div class="guide-step"><span>02</span><div><h3>Điền biểu mẫu</h3><p>Chọn “Nộp bài mới”, nhập các trường bắt buộc và có thể chọn tệp PDF/DOC/DOCX để minh họa việc đính kèm.</p></div></div><div class="guide-step"><span>03</span><div><h3>Lưu bài gửi</h3><p>Nhấn “Lưu bài gửi”. Thông tin văn bản và tên tệp được lưu vào bộ nhớ trình duyệt của thiết bị hiện tại.</p></div></div><div class="guide-step"><span>04</span><div><h3>Tra cứu và cập nhật</h3><p>Mở “Bài đã gửi”, tìm kiếm theo tên bài hoặc mã hồ sơ, xem chi tiết và thay đổi trạng thái mô phỏng.</p></div></div></div></div><aside class="guide-aside"><div class="surface-card guide-note"><div class="note-icon"><svg class="icon"><use href="#i-alert" /></svg></div><h3>Lưu ý về dữ liệu</h3><p>Đây không phải cổng gửi bài thật. Bài viết và tệp đính kèm <strong>không được chuyển tới tạp chí</strong>. Nội dung chỉ nằm trong trình duyệt; tệp chỉ lưu tên, không lưu nội dung.</p><hr /><p>Không sử dụng hệ thống demo cho bản thảo hoặc thông tin cá nhân cần bảo mật.</p></div><div class="surface-card guide-note secondary-note"><h3>Loại tệp minh họa</h3><div class="file-chips"><span>.PDF</span><span>.DOC</span><span>.DOCX</span></div><p>Định dạng ở đây chỉ phục vụ giao diện thực hành, không phải tiêu chuẩn của một tạp chí cụ thể.</p></div></aside></div>
+        </section>
+      </main>
+      <footer class="site-footer"><span>© 2026 JournalDesk · Academic Manuscript Demo</span><span>Website tĩnh · HTML / CSS / JavaScript</span></footer>
+    </div>
+  </div>
+
+  <dialog class="modal" id="submitDialog" aria-labelledby="submitDialogTitle">
+    <form id="submitForm" class="modal-form">
+      <div class="modal-head"><div><span class="card-kicker">TẠO HỒ SƠ MỚI</span><h2 id="submitDialogTitle">Nộp bản thảo</h2><p>Điền các thông tin cơ bản của bài báo khoa học.</p></div><button type="button" class="icon-button" data-action="close-submit" aria-label="Đóng biểu mẫu"><svg class="icon"><use href="#i-close" /></svg></button></div>
+      <div class="modal-body">
+        <div class="form-section-title"><span>01</span> Thông tin bài báo</div>
+        <div class="form-group"><label for="paperTitle">Tiêu đề bài báo <span>*</span></label><input id="paperTitle" name="title" required maxlength="240" placeholder="Nhập tiêu đề đầy đủ của bài báo" /></div>
+        <div class="form-row"><div class="form-group"><label for="paperType">Loại bài <span>*</span></label><select id="paperType" name="type" required><option value="Nghiên cứu gốc">Bài nghiên cứu gốc</option><option value="Bài tổng quan">Bài tổng quan</option><option value="Bài báo ngắn">Bài báo ngắn</option><option value="Báo cáo kỹ thuật">Báo cáo kỹ thuật</option></select></div><div class="form-group"><label for="paperField">Lĩnh vực <span>*</span></label><select id="paperField" name="field" required><option value="Công nghệ thông tin">Công nghệ thông tin</option><option value="Trí tuệ nhân tạo">Trí tuệ nhân tạo</option><option value="An toàn thông tin">An toàn thông tin</option><option value="Khoa học dữ liệu">Khoa học dữ liệu</option><option value="Lĩnh vực khác">Lĩnh vực khác</option></select></div></div>
+        <div class="form-section-title"><span>02</span> Thông tin tác giả</div>
+        <div class="form-row"><div class="form-group"><label for="contactName">Tác giả liên hệ <span>*</span></label><input id="contactName" name="author" required maxlength="120" placeholder="Họ và tên" /></div><div class="form-group"><label for="contactEmail">Email liên hệ <span>*</span></label><input type="email" id="contactEmail" name="email" required maxlength="200" placeholder="ten@example.com" /></div></div>
+        <div class="form-group"><label for="coauthors">Đồng tác giả <span class="optional">(không bắt buộc)</span></label><input id="coauthors" name="coauthors" maxlength="300" placeholder="Phân tách các tên bằng dấu phẩy" /></div>
+        <div class="form-section-title"><span>03</span> Nội dung và tệp minh họa</div>
+        <div class="form-group"><label for="paperAbstract">Tóm tắt <span>*</span></label><textarea id="paperAbstract" name="abstract" required minlength="20" maxlength="2500" rows="4" placeholder="Trình bày ngắn gọn mục tiêu, phương pháp và kết quả chính..."></textarea><span class="input-hint">Tối thiểu 20 ký tự.</span></div>
+        <div class="form-group"><label for="paperKeywords">Từ khóa <span>*</span></label><input id="paperKeywords" name="keywords" required maxlength="240" placeholder="Ví dụ: an ninh mạng, học máy, phát hiện bất thường" /></div>
+        <div class="form-group"><label for="paperFile">Tệp bản thảo <span class="optional">(không bắt buộc)</span></label><label for="paperFile" class="file-drop"><svg class="icon"><use href="#i-upload" /></svg><span id="filePickerLabel"><strong>Chọn tệp từ máy tính</strong><small>PDF, DOC hoặc DOCX · Chỉ ghi nhớ tên tệp</small></span></label><input class="visually-hidden-file" type="file" id="paperFile" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" /><span class="input-hint">Tệp không được tải lên hoặc lưu vào website.</span></div>
+        <div class="form-disclaimer"><svg class="icon"><use href="#i-info" /></svg><span>Đây là bản demo: “Lưu bài gửi” chỉ lưu thông tin trong trình duyệt hiện tại, <strong>không gửi hồ sơ tới một tạp chí thật</strong>.</span></div>
+      </div>
+      <div class="modal-footer"><button type="button" class="btn btn-light" data-action="close-submit">Hủy</button><button type="submit" class="btn btn-primary"><svg class="icon"><use href="#i-check" /></svg> Lưu bài gửi</button></div>
+    </form>
+  </dialog>
+
+  <dialog class="modal detail-modal" id="detailDialog" aria-labelledby="detailDialogTitle"><div class="modal-head"><div><span class="card-kicker" id="detailId">HỒ SƠ</span><h2 id="detailDialogTitle">Chi tiết bản thảo</h2><p>Thông tin được lưu trên trình duyệt.</p></div><button type="button" class="icon-button" data-action="close-detail" aria-label="Đóng chi tiết"><svg class="icon"><use href="#i-close" /></svg></button></div><div class="modal-body"><div class="detail-title-block"><h3 id="detailPaperTitle"></h3><span id="detailBadge"></span></div><div class="detail-info-grid"><div><span>Loại bài</span><strong id="detailType"></strong></div><div><span>Lĩnh vực</span><strong id="detailField"></strong></div><div><span>Tác giả liên hệ</span><strong id="detailAuthor"></strong></div><div><span>Email liên hệ</span><strong id="detailEmail"></strong></div><div><span>Đồng tác giả</span><strong id="detailCoauthors"></strong></div><div><span>Ngày gửi</span><strong id="detailDate"></strong></div><div><span>Tên tệp tham khảo</span><strong id="detailFile"></strong></div><div><span>Từ khóa</span><strong id="detailKeywords"></strong></div></div><div class="detail-abstract"><span>TÓM TẮT</span><p id="detailAbstract"></p></div><div class="status-editor"><div><strong>Trạng thái bản thảo</strong><p>Chỉ mô phỏng tiến độ; không phản ánh kết quả phản biện thật.</p></div><label class="sr-only" for="detailStatus">Chọn trạng thái mới</label><select id="detailStatus"><option value="submitted">Mới nộp</option><option value="screening">Kiểm tra hình thức</option><option value="review">Đang phản biện</option><option value="revision">Cần chỉnh sửa</option><option value="accepted">Đã chấp nhận</option><option value="rejected">Từ chối</option></select></div></div><div class="modal-footer"><button type="button" class="btn btn-danger-text" id="deletePaperBtn"><svg class="icon"><use href="#i-trash" /></svg> Xóa hồ sơ</button><button type="button" class="btn btn-primary" data-action="close-detail">Đóng</button></div></dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
